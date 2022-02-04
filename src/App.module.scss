@@ -1,0 +1,61 @@
+$backgroundColor: #DEE0E6;
+$backgroundColor2: #1ac0c6;
+$backgroundColor3: #FFA822;
+$textColor: #134e6f;
+$textColor2: #FF6150;
+
+body{
+  background-color: $backgroundColor;
+}
+.mainblock{
+  // max-width: 600px;
+  min-height: 300px;
+  height: 70%;
+  // margin: 50px auto;
+  border-radius: 5px;
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+  color:$textColor;
+  font-size: 1.2em;
+  
+  .mainblock__label{
+    text-align: center;
+  }
+  .mainblock__label_error{
+    color: $textColor2;
+  }
+
+  .MuiListItem-root	{
+    border: 1px;
+  }
+}
+.searchblock{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2em;
+  .searchblock__search{
+    color:$textColor;
+    border-color: $textColor;
+  }
+  .searchblock__button{
+    margin-left: 2em;
+    background-color: $textColor;
+    // border: 1px solid $borderColor;
+    color:$backgroundColor;
+    &:hover{
+      background-color: $textColor2;
+    }
+  }
+}
+.commit__button{
+  color:$backgroundColor !important;
+  background-color: $textColor !important;
+  margin-top: 50px;
+  max-width: 300px;
+  align-self: flex-end;
+  &:hover{
+    background-color: $textColor2 !important;;
+  }
+}
