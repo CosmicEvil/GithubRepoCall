@@ -20,29 +20,27 @@ function App() {
     const fetchData = async () => {
       if(usernameInput != ""){
 
-      setIsLoading(true);
-      setloadingMessage("Loading")
-      setError(false);
-      try {
-        const result = await axios(
-          `https://api.github.com/users/${username}/repos`,
-        );
-        setData(result.data);
-      } catch (error) {
-        setError(true);
-        setData([]);
+        setIsLoading(true);
+        setloadingMessage("Loading")
+        setError(false);
+        try {
+          const result = await axios(
+            `https://api.github.com/users/${username}/repos`,
+          );
+          setData(result.data);
+        } catch (error) {
+          setError(true);
+          setData([]);
+        }
+
+        setIsLoading(false);
+        setloadingMessage("Enter a Github Account to see the public repositories they can access")
+
+      } else {
+        setIsLoading(true);
+
       }
-
-      setIsLoading(false);
-      setloadingMessage("Enter a Github Account to see the public repositories they can access")
-
-    } else {
-      setIsLoading(true);
-
-    }
-
     };
-
     fetchData();
   }, [username]);
 
