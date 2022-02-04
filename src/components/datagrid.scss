@@ -1,0 +1,18 @@
+
+$backgroundColor: #DEE0E6;
+$backgroundColor2: #1ac0c6;
+$backgroundColor3: #FFA822;
+$textColor: #134e6f;
+$textColor2: #FF6150;
+.MuiDataGrid-main{
+    border-radius: 1px;
+}
+.MuiDataGrid-columnHeader{
+    background-color: $backgroundColor2;
+}
+.MuiDataGrid-row:nth-child(odd){
+    background-color: #fff;
+}
+.MuiDataGrid-row:nth-child(even){
+    background-color: rgb(231, 231, 231);
+}
