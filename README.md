@@ -1,4 +1,5 @@
-# Om te testen "npm start" runnen in terminal
+# Om te starten "npm start" runnen in terminal
+# Om te testen "npm run test" runnen in terminal
 
 # ES6 functies
 Er zitten redelijk veel ternary operators in, deze maken het heel handig om met de errors en loading messages te werken.

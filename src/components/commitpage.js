@@ -44,11 +44,9 @@ function CommitsPage() {
         setError(false);
         console.log("repo:" + repo + "   Username:" + username);
         try {
-          
             const result = await fetchDataCommit(username, repo);
             setData(result.data);
             console.log(result.data)
-            
         } catch (error) {
           setError(true);
         }
@@ -58,6 +56,7 @@ function CommitsPage() {
     }, []);
 
     /* if it has an error, it shows the error message instead */
+    
     if (error){
       return (
         <div className={styles.mainblock}>

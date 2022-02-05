@@ -18,7 +18,7 @@ function App() {
   useEffect(() => {
 
     const fetchData = async () => {
-      if(usernameInput != ""){
+      if(usernameInput !== ""){
         setIsLoading(true);
         setloadingMessage("Loading")
         setError(false);
@@ -68,7 +68,7 @@ function App() {
         <div className={styles.mainblock__label}>{loadingMessage}</div>
       ) : (
         <List>
-        { data.length == 0 ?
+        { data.length === 0 ?
         <div className={`${styles.mainblock__label} ${styles.mainblock__label_error}`}> No Repo's to be shown</div>
         : data.map(item => (
           <ListItemButton key={item.id} component={Link} to={"/commits"} 

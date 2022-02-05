@@ -1,6 +1,7 @@
 import axios from 'axios';
-
 import { fetchDataCommit, fetchDataRepo } from './api';
+
+/* Testing for the correct API calls, for both the repos and the commits pages. */
 
 jest.mock('axios');
 describe('fetchData', () => {
