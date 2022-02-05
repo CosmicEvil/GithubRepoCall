@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import styles from './App.module.scss';
 import { List, TextField, ListItemButton, ListItemText, Button } from '@mui/material';
 import { Link } from "react-router-dom";
 import { useGlobalState } from './state';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
-
+import { fetchDataRepo } from './api';
 function App() {
   const [data, setData] = useState([]);
   const [usernameInput, setUsernameInput] = useState("");
@@ -14,28 +13,25 @@ function App() {
   const [error, setError] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [loadingMessage, setloadingMessage] = useState("Enter a Github Account to see the public repositories they can access");
-  /* Connect with the github API and get the repo's for the typed user */ 
+
+  /* Connect with the github API and get the repo's for the typed user */
   useEffect(() => {
 
     const fetchData = async () => {
       if(usernameInput != ""){
-
         setIsLoading(true);
         setloadingMessage("Loading")
         setError(false);
         try {
-          const result = await axios(
-            `https://api.github.com/users/${username}/repos`,
-          );
+          const result = await fetchDataRepo(username);
           setData(result.data);
+          console.log(result.data);
         } catch (error) {
           setError(true);
           setData([]);
         }
-
         setIsLoading(false);
         setloadingMessage("Enter a Github Account to see the public repositories they can access")
-
       } else {
         setIsLoading(true);
 
@@ -46,11 +42,15 @@ function App() {
 
   /* Handlers for the buttons and text field */
   const onTextChange = (e) => setUsernameInput(e.target.value);
-  const handleSubmit = () => setUsername(usernameInput);
+  const handleSubmit = async () => {
+    await setUsername(usernameInput)
+    console.log(username);
+  };
   const handleReset = () => setUsernameInput("");
 
   return (
     <div className={styles.mainblock}>
+
       <div className={styles.searchblock}>
         <TextField className={styles.searchblock__search} 
           onChange={onTextChange} value={usernameInput || ''} id="basic" label="Username"   
@@ -61,15 +61,19 @@ function App() {
         <Button className={styles.searchblock__button} onClick={handleSubmit} variant="contained"  color="primary">Submit</Button>
         <Button className={styles.searchblock__button} onClick={handleReset} variant="contained" color="primary" >Reset</Button>
       </div>
+
       {error && <div className={`${styles.mainblock__label} ${styles.mainblock__label_error}`}>Something went wrong</div>}
+
       {isLoading ? (
         <div className={styles.mainblock__label}>{loadingMessage}</div>
       ) : (
         <List>
-        {data.map(item => (
+        { data.length == 0 ?
+        <div className={`${styles.mainblock__label} ${styles.mainblock__label_error}`}> No Repo's to be shown</div>
+        : data.map(item => (
           <ListItemButton key={item.id} component={Link} to={"/commits"} 
             onClick={() => {setRepo(item.name); setUsername(username)}}>
-            <ListItemText primary={item.name} /> <ArrowRightIcon />
+            <ListItemText className={styles.listItem} primary={item.name} secondary={"⭐ " + item.stargazers_count + "   🍴 " +item.forks_count}/> <ArrowRightIcon />
           </ListItemButton>
         ) )}
         </List>

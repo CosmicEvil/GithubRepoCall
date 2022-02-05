@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { Button } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid'
 import { useGlobalState } from '../state';
@@ -7,6 +6,8 @@ import { Link } from 'react-router-dom';
 import { parseISO, format } from 'date-fns'
 import styles from '../App.module.scss';
 import "./datagrid.scss";
+import { fetchDataCommit } from '../api';
+
 function CommitsPage() {
     const [username, setUsername] = useGlobalState('user');
     const [repo, setRepo] = useGlobalState('repo');
@@ -43,12 +44,11 @@ function CommitsPage() {
         setError(false);
         console.log("repo:" + repo + "   Username:" + username);
         try {
-            const url =   `https://api.github.com/repos/${username}/${repo}/commits`;
-            console.log(url)
-            const result = await axios(url);
+          
+            const result = await fetchDataCommit(username, repo);
             setData(result.data);
-            // console.log(result.data)
-            console.log(result.data);
+            console.log(result.data)
+            
         } catch (error) {
           setError(true);
         }
@@ -57,24 +57,34 @@ function CommitsPage() {
       fetchData();
     }, []);
 
+    /* if it has an error, it shows the error message instead */
+    if (error){
+      return (
+        <div className={styles.mainblock}>
+          <div className={`${styles.mainblock__label} ${styles.mainblock__label_error}`}>Something went wrong</div>
+          <Button className={styles.commit__button} component={Link} to="/" variant="contained" >
+            Back to the main page
+          </Button>
+        </div>
+      )
+    }
+
     return (
       <div className={styles.mainblock}>
-   
-        {error && <div className={`${styles.mainblock__label} ${styles.mainblock__label_error}`}>Something went wrong</div>}
-        {isLoading ? (
+        {
+        isLoading ?
+        (
           <div className={styles.mainblock__label}>Loading</div>
-        ) : (
-          // <div style={{ flexGrow: 1 }}>
-
-            <DataGrid
-              rows={data}
-              columns={columns}
-              pageSize={20}
-              getRowId={(row) => row.node_id}
-             
-            />
-
-        )}
+        ) :
+        (
+          <DataGrid
+            rows={data}
+            columns={columns}
+            pageSize={20}
+            getRowId={(row) => row.node_id}
+          />
+        )
+        }
         <Button className={styles.commit__button} component={Link} to="/" variant="contained" >
             Back to the main page
         </Button>
